@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DocPilot AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <h1>DocPilot AI</h1>
+  <p>Your AI-powered assistant for global documentation</p>
+</header>
+
+<section class="section center-box card">
+  <h2>Tell Us About Your Move</h2>
+
+  <label>Destination Country</label>
+<select id="country" onchange="showPurpose()">
+  <option value="">Select Country</option>
+  <option value="germany">Germany</option>
+  <option value="canada">Canada</option>
+  <option value="uk">United Kingdom</option>
+</select>
+
+  <label>Purpose</label>
+  <select id="purpose" disabled>
+    <option value="">Select Purpose</option>
+    <option value="student">Student Visa</option>
+    <option value="work">Work Visa</option>
+  </select>
+
+  <button onclick="generateChecklist()">Generate Checklist</button>
+</section>
+
+<section class="section light card" id="result" style="display:none;">
+  <h2 style="text-align: center;">AI-Generated Document Checklist</h2>
+  <ul id="checklist" class="documents-card"></ul>
+
+<div id="explanations"></div>
+<div id="mistakes"></div>
+
+<h3>Visa Timeline</h3>
+<ol id="timeline"></ol>
+</section>
+
+<section class="section">
+  <h2>Future Scope</h2>
+  <p>
+    Multi-country support, freelancer visas, document auto-validation,
+    and direct integrations with universities and employers.
+  </p>
+</section>
+
+<!-- <footer>
+  <p>Built for Open Hackathon | Team DocPilot AI</p>
+</footer> -->
+
+<script>
+function showPurpose() {
+  const country = document.getElementById("country").value;
+  const purpose = document.getElementById("purpose");
+  purpose.disabled = country === "";
+}
+
+function generateChecklist() {
+  const country = document.getElementById("country").value;
+  const purpose = document.getElementById("purpose").value;
+
+  const checklist = document.getElementById("checklist");
+  const explanations = document.getElementById("explanations");
+  const mistakes = document.getElementById("mistakes");
+  const timeline = document.getElementById("timeline");
+  const result = document.getElementById("result");
+
+  checklist.innerHTML = "";
+  explanations.innerHTML = "";
+  mistakes.innerHTML = "";
+  timeline.innerHTML = "";
+
+  if (!country || !purpose) {
+    alert("Please select both country and purpose");
+    return;
+  }
+
+  /* ================= STUDENT VISAS ================= */
+
+  if (country === "germany" && purpose === "student") {
+    checklist.innerHTML = `
+      <li>Valid Passport</li>
+      <li>University Admission Letter</li>
+      <li>Blocked Account Proof</li>
+      <li>Health Insurance</li>
+      <li>Academic Transcripts</li>
+      <li>Motivation Letter</li>
+    `;
+
+    explanations.innerHTML = `
+      <h3>Document Explanations</h3>
+      <p><b>Passport:</b> Must be valid for full study duration.</p>
+      <p><b>Admission Letter:</b> Issued by German university.</p>
+      <p><b>Blocked Account:</b> €11,208 financial proof.</p>
+      <p><b>Insurance:</b> Mandatory German-approved insurance.</p>
+      <p><b>Transcripts:</b> Academic records.</p>
+      <p><b>Motivation Letter:</b> Study intent explanation.</p>
+    `;
+    mistakes.innerHTML = `
+      <h3>Common Rejection Reasons</h3>
+    <ul>
+        <li>Insufficient blocked account funds</li>
+        <li>Unclear study motivation</li>
+        <li>Incomplete documentation</li>
+        <li>Invalid health insurance</li>
+    </ul>
+    `;
+
+    
+    timeline.innerHTML = `
+      <li>Receive admission</li>
+      <li>Open blocked account</li>
+      <li>Get insurance</li>
+      <li>Book embassy slot</li>
+      <li>Submit visa</li>
+    `;
+  }
+
+  if (country === "canada" && purpose === "student") {
+    checklist.innerHTML = `
+      <li>Valid Passport</li>
+      <li>Letter of Acceptance</li>
+      <li>Proof of Funds</li>
+      <li>Medical Examination</li>
+      <li>Statement of Purpose</li>
+    `;
+
+    explanations.innerHTML = `
+      <h3>Document Explanations</h3>
+      <p><b>LOA:</b> Issued by a Canadian DLI.</p>
+      <p><b>Funds:</b> Tuition + living expenses.</p>
+      <p><b>Medical:</b> Required for long-term study.</p>
+      <p><b>SOP:</b> Career & study goals.</p>
+    `;
+
+    mistakes.innerHTML = `
+      <h3>Common Rejection Reasons</h3>
+    <ul>
+        <li>Insufficient blocked account funds</li>
+        <li>Unclear study motivation</li>
+        <li>Incomplete documentation</li>
+        <li>Invalid health insurance</li>
+    </ul>
+    `;
+
+    timeline.innerHTML = `
+      <li>Get acceptance</li>
+      <li>Arrange funds</li>
+      <li>Medical exam</li>
+      <li>Apply online</li>
+      <li>Decision</li>
+    `;
+  }
+
+  if (country === "uk" && purpose === "student") {
+    checklist.innerHTML = `
+      <li>Valid Passport</li>
+      <li>CAS Letter</li>
+      <li>Proof of Funds</li>
+      <li>English Language Test</li>
+    `;
+
+    explanations.innerHTML = `
+      <h3>Document Explanations</h3>
+      <p><b>CAS:</b> Confirmation of Acceptance.</p>
+      <p><b>Funds:</b> Tuition + maintenance.</p>
+      <p><b>English:</b> IELTS or equivalent.</p>
+    `;
+
+    mistakes.innerHTML = `
+      <h3>Common Rejection Reasons</h3>
+    <ul>
+        <li>Insufficient blocked account funds</li>
+        <li>Unclear study motivation</li>
+        <li>Incomplete documentation</li>
+        <li>Invalid health insurance</li>
+    </ul>
+    `;
+
+    timeline.innerHTML = `
+      <li>Receive CAS</li>
+      <li>Prepare funds</li>
+      <li>Apply visa</li>
+      <li>Biometrics</li>
+      <li>Decision</li>
+    `;
+  }
+
+  /* ================= WORK VISAS ================= */
+
+  if (country === "germany" && purpose === "work") {
+    checklist.innerHTML = `
+      <li>Valid Passport</li>
+      <li>German Job Offer</li>
+      <li>Recognised Degree</li>
+      <li>Work Experience Proof</li>
+      <li>Health Insurance</li>
+    `;
+
+    explanations.innerHTML = `
+      <h3>Document Explanations</h3>
+      <p><b>Job Offer:</b> From a German employer.</p>
+      <p><b>Degree:</b> Must be recognised in Germany.</p>
+      <p><b>Experience:</b> Employer letters.</p>
+      <p><b>Insurance:</b> Mandatory coverage.</p>
+    `;
+
+    mistakes.innerHTML = `
+  <h3>Common Rejection Reasons</h3>
+  <ul>
+    <li>Job offer does not match applicant’s qualifications</li>
+    <li>Degree not recognized in Germany</li>
+    <li>Insufficient proof of professional experience</li>
+    <li>Incomplete or inconsistent documentation</li>
+    <li>Invalid or inadequate health insurance</li>
+  </ul>
+`;
+
+    timeline.innerHTML = `
+      <li>Secure job offer</li>
+      <li>Degree recognition</li>
+      <li>Prepare documents</li>
+      <li>Apply visa</li>
+      <li>Relocate</li>
+    `;
+  }
+
+  if (country === "canada" && purpose === "work") {
+    checklist.innerHTML = `
+      <li>Valid Passport</li>
+      <li>Job Offer / LMIA</li>
+      <li>Work Experience Proof</li>
+      <li>Medical Exam</li>
+      <li>Police Clearance</li>
+    `;
+
+    explanations.innerHTML = `
+      <h3>Document Explanations</h3>
+      <p><b>LMIA:</b> Employer approval (if required).</p>
+      <p><b>Experience:</b> Reference letters.</p>
+      <p><b>Medical:</b> Health clearance.</p>
+      <p><b>PCC:</b> Criminal background check.</p>
+    `;
+
+   mistakes.innerHTML = `
+  <h3>Common Rejection Reasons</h3>
+  <ul>
+    <li>Missing or invalid LMIA (if required)</li>
+    <li>Weak proof of work experience</li>
+    <li>Failure to demonstrate intent to leave after permit expiry</li>
+    <li>Incomplete medical or police clearance</li>
+    <li>Employer eligibility issues</li>
+  </ul>
+`;
+
+    timeline.innerHTML = `
+      <li>Get job offer</li>
+      <li>LMIA (if required)</li>
+      <li>Medical & PCC</li>
+      <li>Apply online</li>
+      <li>Decision</li>
+    `;
+  }
+
+  if (country === "uk" && purpose === "work") {
+    checklist.innerHTML = `
+      <li>Valid Passport</li>
+      <li>Certificate of Sponsorship</li>
+      <li>Job Offer</li>
+      <li>English Proficiency</li>
+      <li>Proof of Funds</li>
+    `;
+
+    explanations.innerHTML = `
+      <h3>Document Explanations</h3>
+      <p><b>CoS:</b> Issued by licensed employer.</p>
+      <p><b>Job Offer:</b> Skill & salary compliant.</p>
+      <p><b>English:</b> IELTS or equivalent.</p>
+      <p><b>Funds:</b> Maintenance proof.</p>
+    `;
+
+    mistakes.innerHTML = `
+  <h3>Common Rejection Reasons</h3>
+  <ul>
+    <li>Employer is not a licensed sponsor</li>
+    <li>Salary does not meet visa threshold</li>
+    <li>Invalid or missing Certificate of Sponsorship</li>
+    <li>Insufficient English language proof</li>
+    <li>Incomplete financial documentation</li>
+  </ul>
+`;
+
+    timeline.innerHTML = `
+      <li>Secure sponsored job</li>
+      <li>Receive CoS</li>
+      <li>Prepare documents</li>
+      <li>Apply visa</li>
+      <li>Travel</li>
+    `;
+  }
+
+  result.style.display = "block";
+}
+</script>
+
+</body>
+</html>
